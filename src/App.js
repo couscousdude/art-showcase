@@ -1,19 +1,96 @@
-import Home from './components/Home/Home';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import 'antd/dist/antd.css';
+import React from 'react';
+import Main from './components/Main/Main';
+import DesktopNavBar from './components/Navbar/DesktopNavbar';
+import MobileNavBar from './components/Navbar/MobileNavbar'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import sections from './assets/sections';
+import mobileCheck from './utils/mobileCheck';
+import { ThemeProvider } from 'react-jss';
+import clsx from 'clsx';
+import TestPage from './components/TestPage';
+import NavDrawer from './components/Main/NavDrawer';
+import './App.css';
+import { Helmet } from "react-helmet";
 
-function App() {
+const theme = {
+  
+}
+
+function App(props) {
+  const [navbarTransparent, setNavbarTransparent] = React.useState(true);
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [yOffset, setYOffset] = React.useState(window.pageYOffset);
+  const [pageHidden, setPageHidden] = React.useState(true);
+
+  React.useEffect(() => {
+    // const cover = document.getElementsByClassName('Cover');
+    // cover[0].getElementsByClassName.background = "https://source.unsplash.com/random/3840x2160/?nature,art,abstract";
+
+    const handleScroll = () => {
+        setYOffset(window.pageYOffset);
+        if (window.pageYOffset === 0) {
+            setNavbarTransparent(true);
+        } else {
+            setNavbarTransparent(false);
+        }
+    }
+
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <Router>
-      <Switch>
-        <Route 
-          path='/home'
-          render={() => (
-            <Home />
-          )}
-        />
-      </Switch>
-    </Router>
+    <>
+    {/* <Helmet>
+      
+    </Helmet> */}
+    <div className={clsx('root', { 'drawer-open': drawerOpen })} hidden={false}>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <NavDrawer 
+            onDrawerClose={() => setDrawerOpen(false)}
+            open={drawerOpen}
+            title='Youwen Wu'
+            sections={sections}
+            placement='top'
+          />
+          { !mobileCheck()
+              ? (
+              <DesktopNavBar 
+                sections={sections}
+                title='Art Showcase'
+                navTransparent={navbarTransparent}
+              /> )
+              : (
+                <MobileNavBar
+                  title='Art Showcase'
+                  navTransparent={navbarTransparent}
+                  onButtonClick={() => setDrawerOpen(true)}
+                />
+              )
+          }
+          <Switch>
+              <Redirect from='/' to='/home' exact />
+              <Route path='/home' render={() => (
+                <Main
+                  onNavTop={setNavbarTransparent}
+                  title='Art Show'
+                  yOffset={yOffset}
+                />
+              )}
+              />
+              <Route path='/test' render={() => (
+                <TestPage
+                // onNavTop={setNavbarTransparent}
+                // title='Youwen Wu'
+                />
+              )}
+              />
+          </Switch>
+        </Router>
+      </ThemeProvider>
+    </div>
+    </>
   );
 }
 
