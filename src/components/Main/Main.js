@@ -89,8 +89,7 @@ function Main(props) {
         <div>
             <div 
                 className={'Cover'} 
-                style={
-                    !mobileCheck
+                style={window.innerHeight > 768
                     ? {
                         backgroundPositionY: yOffset * 0.7, 
                         background: `url("${coverImage}")`

@@ -23,8 +23,6 @@ function App(props) {
   const [pageHidden, setPageHidden] = React.useState(true);
 
   React.useEffect(() => {
-    // const cover = document.getElementsByClassName('Cover');
-    // cover[0].getElementsByClassName.background = "https://source.unsplash.com/random/3840x2160/?nature,art,abstract";
 
     const handleScroll = () => {
         setYOffset(window.pageYOffset);
