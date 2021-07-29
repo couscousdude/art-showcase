@@ -16,7 +16,7 @@ const useStyles = createUseStyles({
         width: '100%',
         overflowY: 'hidden',
         transition: 'all 150ms ease-in;',
-        zIndex: 1
+        zIndex: 1,
         // backgroundColor: 'transparent',
     },
     title: {

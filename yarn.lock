@@ -5042,6 +5042,11 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+fast-average-color@^6.4.1:
+  version "6.4.1"
+  resolved "https://registry.yarnpkg.com/fast-average-color/-/fast-average-color-6.4.1.tgz#fd26409cccfdc303ced7349800abd3d7c5e2b24b"
+  integrity sha512-HR0+tA5pHrtQYobVWZZ5M8PE4VGASlhwU68DSplaYK15g5E6b79joe6kKcgJozzSyCrilO/m2eU0feo6snc8Pg==
+
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"

@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import TestPage from './components/TestPage';
 import NavDrawer from './components/Main/NavDrawer';
 import './App.css';
-import { Helmet } from "react-helmet";
+// import { Helmet } from "react-helmet";
 
 const theme = {
   
@@ -44,13 +44,13 @@ function App(props) {
     {/* <Helmet>
       
     </Helmet> */}
-    <div className={clsx('root', { 'drawer-open': drawerOpen })} hidden={false}>
+    <div className={clsx('root', { 'drawer-open': drawerOpen })} hidden={pageHidden}>
       <ThemeProvider theme={theme}>
         <Router>
           <NavDrawer 
             onDrawerClose={() => setDrawerOpen(false)}
             open={drawerOpen}
-            title='Youwen Wu'
+            title='Art Showcase'
             sections={sections}
             placement='top'
           />
@@ -76,6 +76,7 @@ function App(props) {
                   onNavTop={setNavbarTransparent}
                   title='Art Show'
                   yOffset={yOffset}
+                  onCoverImageLoad={() => setPageHidden(false)}
                 />
               )}
               />

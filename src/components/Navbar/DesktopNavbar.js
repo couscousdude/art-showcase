@@ -20,7 +20,8 @@ const useStyles = createUseStyles({
         position: 'fixed',
         width: '100%',
         transition: 'all 150ms ease-in;',
-        zIndex: 1
+        zIndex: 1,
+        // backgroundColor: 'transparent'
     },
     showNav: {
         backgroundColor: 'white',
