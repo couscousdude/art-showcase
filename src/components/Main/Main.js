@@ -73,7 +73,7 @@ function Main(props) {
 
     React.useEffect(() => {
         const getCoverImage = async (resolution, onLoad) => {
-            const res = await toObjectUrl(`https://source.unsplash.com/random/${resolution}/?nature,art,abstract`);
+            const res = await toObjectUrl(`https://source.unsplash.com/random/${resolution}/?nature,art,abstract`); // NOSONAR
                 // .then(() => {
                 //     onLoad
                 //         ? onLoad()
@@ -89,7 +89,7 @@ function Main(props) {
         <div>
             <div 
                 className={'Cover'} 
-                style={window.innerHeight > 768
+                style={window.innerWidth > 768
                     ? {
                         backgroundPositionY: yOffset * 0.7, 
                         background: `url("${coverImage}")`
