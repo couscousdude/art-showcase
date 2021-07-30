@@ -21,6 +21,7 @@ function App(props) {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [yOffset, setYOffset] = React.useState(window.pageYOffset);
   const [pageHidden, setPageHidden] = React.useState(true);
+  const [coverImageUrl, setCoverImageUrl] = React.useState('');
 
   React.useEffect(() => {
 
@@ -34,7 +35,8 @@ function App(props) {
     }
 
       window.addEventListener('scroll', handleScroll, { passive: true });
-      return () => window.removeEventListener('scroll', handleScroll);
+      return (() => {
+        window.removeEventListener('scroll', handleScroll);      });
   }, []);
 
   return (
@@ -74,7 +76,11 @@ function App(props) {
                   onNavTop={setNavbarTransparent}
                   title='Art Show'
                   yOffset={yOffset}
-                  onCoverImageLoad={() => setPageHidden(false)}
+                  onCoverImageLoad={coverImage => {
+                    setPageHidden(false);
+                    setCoverImageUrl(coverImage);
+                  }}
+                  coverImage={coverImageUrl}
                 />
               )}
               />

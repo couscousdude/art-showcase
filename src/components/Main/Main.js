@@ -41,8 +41,10 @@ const useStyles = createUseStyles({
 
 function Main(props) {
     const classes = useStyles();
-    const { title, yOffset, onCoverImageLoad } = props;
-    const [coverImage, setCoverImage] = React.useState('');
+    const { title, yOffset, onCoverImageLoad, coverImage: coverImageUrl } = props;
+    const [coverImage, setCoverImage] = React.useState(
+        coverImageUrl
+    );
 
     // const generateCover = (onLoad) => {
     //     const coverImage = new Image(window.innerHeight, window.innerWidth);
@@ -72,18 +74,20 @@ function Main(props) {
     }
 
     React.useEffect(() => {
-        const getCoverImage = async (resolution, onLoad) => {
-            const res = await toObjectUrl(`https://source.unsplash.com/random/${resolution}/?nature,art,abstract`); // NOSONAR
-                // .then(() => {
-                //     onLoad
-                //         ? onLoad()
-                //         : void(0)  
-                // }); // NOSONAR
-            setCoverImage(res);
-            onLoad(res);
+        if (!coverImageUrl) {
+            const getCoverImage = async (resolution, onLoad) => {
+                const res = await toObjectUrl(`https://source.unsplash.com/random/${resolution}/?nature,art,abstract`); // NOSONAR
+                    // .then(() => {
+                    //     onLoad
+                    //         ? onLoad()
+                    //         : void(0)  
+                    // }); // NOSONAR
+                setCoverImage(res);
+                onLoad(res);        }
+            getCoverImage(coverResolutionPicker(), onCoverImageLoad);
+
         }
-        getCoverImage(coverResolutionPicker(), onCoverImageLoad);
-    }, []);
+    }, [coverImageUrl]);
     
     return (
         <div>
