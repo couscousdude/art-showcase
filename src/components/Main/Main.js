@@ -1,11 +1,10 @@
 import React from 'react';
-import PlaceHolderLongText from '../PlaceHolderLongText.js';
 import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import { ArrowDownOutlined } from '@ant-design/icons';
 import { Layout } from 'antd';
-import mobileCheck from '../../utils/mobileCheck';
 import sections from '../../assets/sections.js';
+import ArtDisplay from '../ArtDisplay/ArtDisplay';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -27,16 +26,6 @@ const useStyles = createUseStyles({
         fontWeight: '600',
         color: '#d9d9d9'
     },
-    // cover: {
-    //     // backgroundSize: 'cover',
-    //     // height: '100vh',
-    //     // width: '100%',
-    //     // margin: 0,
-    //     // padding: 0,
-    //     color: 'white',
-    //     textAlign: 'center',
-    //     fontSize: '50px',
-    // }
 });
 
 function Main(props) {
@@ -46,21 +35,9 @@ function Main(props) {
         coverImageUrl
     );
 
-    // const generateCover = (onLoad) => {
-    //     const coverImage = new Image(window.innerHeight, window.innerWidth);
-    //     coverImage.src = "https://source.unsplash.com/random/2560x1440/?nature,art,abstract";
-
-    //     const canvas = document.createElement('canvas');
-    //     const ctx = canvas.getContext('2d');
-
-    //     canvas.width = coverImage.width;
-    //     canvas.height = 
-    // }
     const toObjectUrl = async url => {
         const response = await fetch(url);
-        
-        const responseBlobbed = await response.blob();
-        return URL.createObjectURL(responseBlobbed);
+        return URL.createObjectURL(await response.blob());
     }
 
     const coverResolutionPicker = () => {
@@ -76,7 +53,7 @@ function Main(props) {
     React.useEffect(() => {
         if (!coverImageUrl) {
             const getCoverImage = async (resolution, onLoad) => {
-                const res = await toObjectUrl(`https://source.unsplash.com/random/${resolution}/?nature,art,abstract`); // NOSONAR
+                const res = await toObjectUrl(`https://source.unsplash.com/random/${resolution}/?abstract,white`); // NOSONAR
                     // .then(() => {
                     //     onLoad
                     //         ? onLoad()
@@ -96,34 +73,9 @@ function Main(props) {
                 style={window.innerWidth > 768
                     ? {
                         backgroundPositionY: yOffset * 0.7, 
-                        background: `url("${coverImage}")`
+                        backgroundImage: `url("${coverImage}")`
                     } 
-                    : { background: `url("${coverImage}")`}}
-                // style={
-                //     mobileCheck()
-                //         ? {  
-                //             backgroundImage: "url('https://source.unsplash.com/random/2560x1440/?nature,art,abstract')",
-                //             backgroundPosition: 'top center',
-                //             backgroundSize: 'cover',
-                //             backgroundRepeat: 'no-repeat',
-                //             width: '100%',
-                //             height: '100vh',
-                //             margin: 0,
-                //             padding: 0
-                //         }
-                //         : {
-                //             backgroundImage: "url('https://source.unsplash.com/random/2560x1440/?nature,art,abstract')",
-                //             backgroundPosition: 'top center',
-                //             backgroundSize: 'cover',
-                //             backgroundRepeat: 'no-repeat',
-                //             width: '100%',
-                //             height: '100vh',
-                //             margin: 0,
-                //             padding: 0,
-                //             backgroundPositionY: yOffset * 0.7
-                //         }}      
-                // this is really bad design and the above code should probably
-                // be delegated to a helper function but i cba
+                    : { backgroundImage: `url("${coverImage}")`}}
             >
                 <div className={classes.coverTextContainer}>
                     <h1 className={classes.coverText}>{title}</h1>
@@ -135,7 +87,7 @@ function Main(props) {
             <div className={classes.rest}>
                 <Layout>
                     <Content>
-                        <PlaceHolderLongText />
+                        <ArtDisplay />
                     </Content>
                     <Footer>Footer</Footer>
                 </Layout>
@@ -146,7 +98,9 @@ function Main(props) {
 export default Main;
 Main.propTypes = {
     title: PropTypes.string.isRequired,
-    yOffset: PropTypes.number
+    yOffset: PropTypes.number,
+    onCoverImageLoad: PropTypes.func,
+    coverImageUrl: PropTypes.string,
 }
 Main.defaultProps = {
     onNavTop: () => void 0,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Drawer, Typography } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { FormatPainterOutlined } from '@ant-design/icons';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import { createUseStyles } from 'react-jss';
@@ -14,7 +14,7 @@ const useStyles = createUseStyles({
     }
 });
 
-const DrawerTitle = props => <Typography.Title level={4}><UserOutlined />{`   ${props.title}`}</Typography.Title>
+const DrawerTitle = props => <Typography.Title level={4}><FormatPainterOutlined />{`   ${props.title}`}</Typography.Title>
 
 function NavDrawer(props) {
     const classes = useStyles();
