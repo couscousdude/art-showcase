@@ -39,19 +39,6 @@ function App(props) {
 
   return (
     <>
-    {/* <Helmet>
-      
-    </Helmet> */}
-    {/* <div
-      style={{
-        overflow: 'hidden',
-        width: '100vh',
-        height: '100%',
-        backgroundColor: 'white',
-        zIndex: 1
-      }}
-      // hidden={!pageHidden}
-    /> */}
     <div className={clsx('root', { 'drawer-open': drawerOpen })} hidden={false}>
       <ThemeProvider theme={theme}>
         <NavDrawer 
