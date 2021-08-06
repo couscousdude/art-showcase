@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import TestPage from './components/TestPage';
 import NavDrawer from './components/Main/NavDrawer';
 import './App.css';
-// import { Helmet } from "react-helmet";
+import { ParallaxProvider } from 'react-scroll-parallax';
 
 const theme = {
   
@@ -19,14 +19,12 @@ const theme = {
 function App(props) {
   const [navbarTransparent, setNavbarTransparent] = React.useState(true);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const [yOffset, setYOffset] = React.useState(window.pageYOffset);
   const [pageHidden, setPageHidden] = React.useState(true);
   const [coverImageUrl, setCoverImageUrl] = React.useState('');
 
   React.useEffect(() => {
 
     const handleScroll = () => {
-        setYOffset(window.pageYOffset);
         if (window.pageYOffset === 0) {
             setNavbarTransparent(true);
         } else {
@@ -44,59 +42,76 @@ function App(props) {
     {/* <Helmet>
       
     </Helmet> */}
-    <div className={clsx('root', { 'drawer-open': drawerOpen })} hidden={pageHidden}>
+    {/* <div
+      style={{
+        overflow: 'hidden',
+        width: '100vh',
+        height: '100%',
+        backgroundColor: 'white',
+        zIndex: 1
+      }}
+      // hidden={!pageHidden}
+    /> */}
+    <div className={clsx('root', { 'drawer-open': drawerOpen })} hidden={false}>
       <ThemeProvider theme={theme}>
-        <Router>
-          <NavDrawer 
-            onDrawerClose={() => setDrawerOpen(false)}
-            open={drawerOpen}
-            title='Art Showcase'
-            sections={sections}
-            placement='top'
-          />
-          { !mobileCheck()
-              ? (
-              <DesktopNavBar 
-                sections={sections}
+        <NavDrawer 
+          onDrawerClose={() => setDrawerOpen(false)}
+          open={drawerOpen}
+          title='Art Showcase'
+          sections={sections}
+          placement='top'
+        />
+        { !mobileCheck()
+            ? (
+            <DesktopNavBar 
+              sections={sections}
+              title='Art Showcase'
+              navTransparent={navbarTransparent}
+            /> )
+            : (
+              <MobileNavBar
                 title='Art Showcase'
                 navTransparent={navbarTransparent}
-              /> )
-              : (
-                <MobileNavBar
-                  title='Art Showcase'
-                  navTransparent={navbarTransparent}
-                  onButtonClick={() => setDrawerOpen(true)}
-                />
-              )
-          }
-          <Switch>
-              <Redirect from='/' to='/home' exact />
-              <Route path='/home' render={() => (
-                <Main
-                  onNavTop={setNavbarTransparent}
-                  title='Art Show'
-                  yOffset={yOffset}
-                  onCoverImageLoad={coverImage => {
-                    setPageHidden(false);
-                    setCoverImageUrl(coverImage);
-                  }}
-                  coverImage={coverImageUrl}
-                />
-              )}
+                onButtonClick={() => setDrawerOpen(true)}
               />
-              <Route path='/test' render={() => (
-                <TestPage
-                // onNavTop={setNavbarTransparent}
-                // title='Youwen Wu'
-                />
-              )}
+            )
+        }
+        <Switch>
+            <Redirect from='/' to='/home' exact />
+            <Route path='/home' render={() => (
+              <Main
+                onNavTop={setNavbarTransparent}
+                title='Art Show'
+                onCoverImageLoad={coverImage => {
+                  setPageHidden(false);
+                  setCoverImageUrl(coverImage);
+                }}
+                coverImage={coverImageUrl}
               />
-          </Switch>
-        </Router>
+            )}
+            />
+            <Route path='/test' render={() => (
+              <TestPage
+              // onNavTop={setNavbarTransparent}
+              // title='Youwen Wu'
+              />
+            )}
+            />
+        </Switch>
       </ThemeProvider>
     </div>
     </>
   );
 }
 
-export default App;
+const AppContainer = () => (
+  <ThemeProvider>
+    <ParallaxProvider>
+      <Router>
+        <App />
+      </Router>
+    </ParallaxProvider>
+  </ThemeProvider>
+);
+
+export default AppContainer;
