@@ -3,8 +3,8 @@ import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import { ArrowDownOutlined } from '@ant-design/icons';
 import { Layout } from 'antd';
-import sections from '../../assets/sections.js';
 import ArtDisplay from '../ArtDisplay/ArtDisplay';
+import { Parallax } from 'react-scroll-parallax';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -17,8 +17,11 @@ const useStyles = createUseStyles({
     },
     coverTextContainer: {
         display: 'flex',
+        position: 'relative',
+        height: '100vh',
+        width: '100%',
         justifyContent: 'center',
-        flexDirection: 'column'
+        alignItems: 'center'
     },
     coverText: {
         textAlign: 'center',
@@ -26,19 +29,22 @@ const useStyles = createUseStyles({
         fontWeight: '600',
         color: '#d9d9d9'
     },
+    scrollContent: {
+        height: '100vh',
+        width: '100%',
+    },
+    scrollContainer: {
+        position: 'absolute',
+        height: '100%',
+        width: '100%',
+        overflowY: 'hidden',
+        overflowX: 'hidden',
+    }
 });
 
 function Main(props) {
     const classes = useStyles();
-    const { title, yOffset, onCoverImageLoad, coverImage: coverImageUrl } = props;
-    const [coverImage, setCoverImage] = React.useState(
-        coverImageUrl
-    );
-
-    const toObjectUrl = async url => {
-        const response = await fetch(url);
-        return URL.createObjectURL(await response.blob());
-    }
+    const { onCoverImageLoad } = props;
 
     const coverResolutionPicker = () => {
         if (window.innerWidth <= 1920) {
@@ -49,41 +55,23 @@ function Main(props) {
             return ('3840x2160')
         }
     }
-
-    React.useEffect(() => {
-        if (!coverImageUrl) {
-            const getCoverImage = async (resolution, onLoad) => {
-                const res = await toObjectUrl(`https://source.unsplash.com/random/${resolution}/?abstract,white`); // NOSONAR
-                    // .then(() => {
-                    //     onLoad
-                    //         ? onLoad()
-                    //         : void(0)  
-                    // }); // NOSONAR
-                setCoverImage(res);
-                onLoad(res);        }
-            getCoverImage(coverResolutionPicker(), onCoverImageLoad);
-
-        }
-    }, [coverImageUrl]);
     
     return (
         <div>
-            <div 
-                className={'Cover'} 
-                style={window.innerWidth > 768
-                    ? {
-                        backgroundPositionY: yOffset * 0.7, 
-                        backgroundImage: `url("${coverImage}")`
-                    } 
-                    : { backgroundImage: `url("${coverImage}")`}}
+            <Parallax
+                y={[-50, 0]}
+                tagOuter='cover'
             >
-                <div className={classes.coverTextContainer}>
-                    <h1 className={classes.coverText}>{title}</h1>
-                    <h2 style={{color: '#d9d9d9'}}>
-                        <ArrowDownOutlined />
-                    </h2>
-                </div> 
-            </div>
+                <img 
+                    alt='cover' 
+                    src={`https://source.unsplash.com/random/${coverResolutionPicker()}/?abstract,white`}
+                    style={{
+                        height: '100vh',
+                        width: '100%',
+                    }}
+                    onLoad={onCoverImageLoad}
+                />
+            </Parallax>
             <div className={classes.rest}>
                 <Layout>
                     <Content>
@@ -97,12 +85,5 @@ function Main(props) {
 }
 export default Main;
 Main.propTypes = {
-    title: PropTypes.string.isRequired,
-    yOffset: PropTypes.number,
     onCoverImageLoad: PropTypes.func,
-    coverImageUrl: PropTypes.string,
-}
-Main.defaultProps = {
-    onNavTop: () => void 0,
-    yOffset: 0
 }
