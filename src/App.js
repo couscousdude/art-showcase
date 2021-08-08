@@ -19,8 +19,8 @@ const theme = {
 function App(props) {
   const [navbarTransparent, setNavbarTransparent] = React.useState(true);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const [pageHidden, setPageHidden] = React.useState(true);
-  const [coverImageUrl, setCoverImageUrl] = React.useState('');
+  // const [pageHidden, setPageHidden] = React.useState(true);
+  // const [coverImageUrl, setCoverImageUrl] = React.useState('');
 
   React.useEffect(() => {
 
@@ -70,14 +70,14 @@ function App(props) {
                 onNavTop={setNavbarTransparent}
                 title='Art Show'
                 onCoverImageLoad={coverImage => {
-                  setPageHidden(false);
-                  setCoverImageUrl(coverImage);
+                  // setPageHidden(false);
+                  // setCoverImageUrl(coverImage);
                 }}
-                coverImage={coverImageUrl}
+                // coverImage={coverImageUrl}
               />
             )}
             />
-            <Route path='/test' render={() => (
+            <Route path='/user' render={() => (
               <TestPage
               // onNavTop={setNavbarTransparent}
               // title='Youwen Wu'

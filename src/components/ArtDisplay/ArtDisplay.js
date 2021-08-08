@@ -19,13 +19,13 @@ const ArtDisplay = () => {
             {
                 ['', ''].map(() => (
                     <Col 
-                    xs={{ span: 22 }}
-                    sm={{ span: 22 }}
-                    md={{ span: 18 }}
-                    lg={{ span: 14 }}
-                    xl={{ span: 12 }}
-                >
-                    <Post 
+                        xs={{ span: 22 }}
+                        sm={{ span: 22 }}
+                        md={{ span: 18 }}
+                        lg={{ span: 14 }}
+                        xl={{ span: 12 }}
+                    >
+                    <Post   
                         imgSrc='https://source.unsplash.com/random/2560x1440'
                         pfpSrc='https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
                         title='Sample Post'

@@ -1,27 +1,17 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
-import { ArrowDownOutlined } from '@ant-design/icons';
-import { Layout } from 'antd';
+// import { ArrowDownOutlined } from '@ant-design/icons';
+import { BackTop, Divider, Layout, Typography } from 'antd';
 import ArtDisplay from '../ArtDisplay/ArtDisplay';
 import { Parallax } from 'react-scroll-parallax';
+import ProfileDisplay from './ProfileDisplay/ProfileDisplay';
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Footer, Content } = Layout;
 
 const useStyles = createUseStyles({
     root: {
         zIndex: 1
-    },
-    rest: {
-        // backgroundSize: 'cover'
-    },
-    coverTextContainer: {
-        display: 'flex',
-        position: 'relative',
-        height: '100vh',
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     coverText: {
         textAlign: 'center',
@@ -29,17 +19,9 @@ const useStyles = createUseStyles({
         fontWeight: '600',
         color: '#d9d9d9'
     },
-    scrollContent: {
-        height: '100vh',
-        width: '100%',
+    cover: {
+        marginLeft: '-calc(100vw-100%)'
     },
-    scrollContainer: {
-        position: 'absolute',
-        height: '100%',
-        width: '100%',
-        overflowY: 'hidden',
-        overflowX: 'hidden',
-    }
 });
 
 function Main(props) {
@@ -70,16 +52,32 @@ function Main(props) {
                         width: '100%',
                     }}
                     onLoad={onCoverImageLoad}
+                    className={classes.cover}
                 />
             </Parallax>
             <div className={classes.rest}>
                 <Layout>
                     <Content>
+                        <Parallax
+                            y={[0, -100]}
+                        >
+                            <ProfileDisplay />
+                        </Parallax>
+                        <Parallax
+                            y={[-500, 0]}
+                        >
+                            <Divider style={{ margin: 10, orientation: 'center' }}>
+                                <Typography.Title style={{textAlign: 'center'}}>
+                                    Gallery        
+                                </Typography.Title>
+                            </Divider>
+                        </Parallax>
                         <ArtDisplay />
                     </Content>
                     <Footer>Footer</Footer>
                 </Layout>
             </div>
+            <BackTop />
         </div>
     )
 }
