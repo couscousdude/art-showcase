@@ -20,7 +20,7 @@ function App(props) {
   const [navbarTransparent, setNavbarTransparent] = React.useState(true);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   // const [pageHidden, setPageHidden] = React.useState(true);
-  // const [coverImageUrl, setCoverImageUrl] = React.useState('');
+  const [coverImageUrl, setCoverImageUrl] = React.useState('');
 
   React.useEffect(() => {
 
@@ -69,9 +69,10 @@ function App(props) {
               <Main
                 onNavTop={setNavbarTransparent}
                 title='Art Show'
+                coverImageUrl={coverImageUrl}
                 onCoverImageLoad={coverImage => {
-                  // setPageHidden(false);
-                  // setCoverImageUrl(coverImage);
+                  setCoverImageUrl(coverImage);
+                  // console.log(coverImage)
                 }}
                 // coverImage={coverImageUrl}
               />
